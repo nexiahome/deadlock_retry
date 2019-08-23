@@ -23,7 +23,7 @@ module DeadlockRetry
       raise if in_nested_transaction?
       if DEADLOCK_ERROR_MESSAGES.any? { |msg| error.message =~ /#{Regexp.escape(msg)}/ }
         retries_exhausted = retry_count >= DeadlockRetry.maximum_retries_on_deadlock
-        logger.info "Deadlock detected on attempt #{retry_count + 1}. Max retries: #{DeadlockRetry.maximum_retries_on_deadlock}, so #{'not ' if retries_exhausted}restarting transaction. Exception: #{error.to_s}"
+        # logger.info "Deadlock detected on attempt #{retry_count + 1}. Max retries: #{DeadlockRetry.maximum_retries_on_deadlock}, so #{'not ' if retries_exhausted}restarting transaction. Exception: #{error.to_s}"
         raise if retries_exhausted
         retry_count += 1
         exponential_pause(retry_count)
